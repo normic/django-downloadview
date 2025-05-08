@@ -9,18 +9,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
-        django-version: ['4.2', '5.0', 'main']
+        python-version: ['3.8', '3.12', '3.13']
+        django-version: ['4.2', '5.2', 'main']
         exclude:
         # Django 5.0 dropped support for Python <3.10
-        - django-version: '5.0'
-          python-version: '3.8'
-        - django-version: '5.0'
-          python-version: '3.9'
-        - django-version: 'main'
+        - django-version: '5.2'
           python-version: '3.8'
         - django-version: 'main'
-          python-version: '3.9'
+          python-version: '3.8'
 
     steps:
     - uses: actions/checkout@v2
@@ -36,7 +32,7 @@ jobs:
         echo "::set-output name=dir::$(pip cache dir)"
 
     - name: Cache
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ${{ steps.pip-cache.outputs.dir }}
         key:
